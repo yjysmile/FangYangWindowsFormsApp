@@ -19,6 +19,7 @@ namespace FangYangWindowsFormsApp
         {
             InitializeComponent();
             PopulateTreeView();
+            initalizeListView();
         }
 
         private void EmployeeRecordsForm_Load(object sender, EventArgs e)
@@ -63,7 +64,82 @@ namespace FangYangWindowsFormsApp
             }catch(Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }//end
+        }
+
+        protected void initalizeListView()
+        {
+         listView1.Clear();
+            listView1.Columns.Add("Emplyoee Name",255,HorizontalAlignment.Left);
+            listView1.Columns.Add("Date of Join",70,HorizontalAlignment.Right);
+            listView1.Columns.Add("Gread",105,HorizontalAlignment.Left);
+            listView1.Columns.Add("Salary",105,HorizontalAlignment.Left);
+
+        }
+
+        protected void PopulateListView(TreeNode crrNode)
+        {
+            initalizeListView();
+            XmlTextReader listRead = new XmlTextReader("C:\\Users\\yyyyy\\source\\repos\\FangYangWindowsFormsApp\\FangYangWindowsFormsApp\\EmpRec.xml");
+            listRead.MoveToElement();
+
+            while (listRead.Read())
+            {
+                String strNodeName;
+                String strNodePath;
+                String name;
+                String gread;
+                String doj;
+                String sal;
+                String[] strItemsArr = new String[4];
+                listRead.MoveToFirstAttribute();
+                strNodeName = listRead.Value;
+                strNodePath = crrNode.FullPath.Remove(0,17);
+                if (strNodePath == strNodeName)
+                {
+                    ListViewItem lvi;
+
+                    listRead.MoveToNextAttribute();
+                    name = listRead.Value;
+                    lvi = listView1.Items.Add(name);
+
+                    listRead.Read();
+                    listRead.Read();
+
+                    listRead.MoveToFirstAttribute();
+                    doj = listRead.Value;
+                    lvi.SubItems.Add(doj);
+
+                    listRead.MoveToNextAttribute();
+                    gread = listRead.Value;
+                    lvi.SubItems.Add(gread);
+
+                    listRead.MoveToNextAttribute();
+                    sal = listRead.Value;
+                    lvi.SubItems.Add(sal);
+
+                    listRead.MoveToNextAttribute();
+                    listRead.MoveToElement();
+                    listRead.ReadString();
+                }
             }
+        }
+
+        private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            TreeNode currNode=e.Node;
+            if (tvRootNode == currNode)
+            {
+                initalizeListView();
+                statusBarPanel1.Text = "Double Click the emplyoee records";
+                return;
+            }
+            else
+            {
+                statusBarPanel1.Text = "Click an emplyoee code to view individual record";
+
+            }
+            PopulateListView(currNode);
         }
     }
 }

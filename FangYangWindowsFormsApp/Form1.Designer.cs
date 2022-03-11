@@ -41,6 +41,7 @@
             this.treeView1.Name = "treeView1";
             this.treeView1.Size = new System.Drawing.Size(240, 352);
             this.treeView1.TabIndex = 0;
+            this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
             // 
             // listView1
             // 
@@ -56,12 +57,12 @@
             // 
             // statusBar1
             // 
-            this.statusBar1.Location = new System.Drawing.Point(0, 364);
+            this.statusBar1.Location = new System.Drawing.Point(0, 354);
             this.statusBar1.Name = "statusBar1";
             this.statusBar1.Panels.AddRange(new System.Windows.Forms.StatusBarPanel[] {
             this.statusBarPanel1});
             this.statusBar1.ShowPanels = true;
-            this.statusBar1.Size = new System.Drawing.Size(704, 22);
+            this.statusBar1.Size = new System.Drawing.Size(716, 22);
             this.statusBar1.TabIndex = 2;
             this.statusBar1.Text = "statusBar1";
             // 
